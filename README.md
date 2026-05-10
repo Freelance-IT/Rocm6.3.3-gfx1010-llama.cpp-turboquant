@@ -1,3 +1,50 @@
+llama-turboquant-noavx
+
+ROCm + TurboQuant build for older x86-64 CPUs without AVX/AVX2/FMA support.
+
+This image rebuilds both rocBLAS and llama.cpp/TurboQuant with legacy CPU compatibility flags.
+
+Disabled CPU instruction sets
+-DGGML_NATIVE=OFF
+-DGGML_AVX=OFF
+-DGGML_AVX2=OFF
+-DGGML_FMA=OFF
+-DGGML_F16C=OFF
+-DGGML_BMI2=OFF
+
+Additional compiler flags:
+
+-march=x86-64
+-mno-avx
+-mno-avx2
+-mno-fma
+-mno-bmi2
+Why?
+
+Most modern llama.cpp / ROCm builds fail on older CPUs with errors like:
+
+Illegal instruction
+
+This image is intended for:
+
+Celeron
+Core2Quad
+Athlon II
+Phenom II
+older Xeons
+older Opterons
+other pre-AVX x86-64 CPUs
+
+while still using GPU acceleration through ROCm/HIP.
+
+Includes
+ROCm 6.3.3
+rocBLAS rebuilt without AVX assumptions
+TurboQuant KV cache
+Flash Attention
+RDNA1 support (gfx1010)
+llama-server
+
 # Rocm6.3.3-gfx1010-llama.cpp-turboquant
 Rocm6.3.3-gfx1010-llama.cpp-turboquant
 
